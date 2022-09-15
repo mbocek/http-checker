@@ -1,9 +1,3 @@
-# httpchecker
-
-Check http endpoint via GET method. Base on the configuration create metric.
-
-Configuration file is yaml base:
-```yaml
 check:
   - url: https://google.com # url to check
     timeout: 3              # timeout to evaluate url ping
@@ -16,6 +10,4 @@ check:
     metric: facebook_status
     metric-description: "Facebook reachability"
 metrics:
-  port: 8080                # port for exposing metrics
-
-```
+  port: 1111                # port for exposing metrics
