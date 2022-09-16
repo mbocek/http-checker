@@ -19,5 +19,5 @@ FROM gcr.io/distroless/base
 WORKDIR /
 COPY --from=build /http-checker /http-checker
 EXPOSE 8080
-#USER nonroot:nonroot
+USER nonroot:nonroot
 ENTRYPOINT ["/http-checker"]

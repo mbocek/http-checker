@@ -4,10 +4,12 @@ check:
     check-period: 10        # period to check url
     metric: google_status   # prometheus metrics name
     metric-description: "Google reachability"
+    response-code: 200
   - url: https://facebook.com
     timeout: 3
     check-period: 10
     metric: facebook_status
     metric-description: "Facebook reachability"
+    response-code: 200
 metrics:
   port: 1111                # port for exposing metrics

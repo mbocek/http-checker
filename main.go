@@ -25,6 +25,7 @@ type Check struct {
 	CheckPeriod       int    `mapstructure:"check-period"`
 	Metric            string `mapstructure:"metric"`
 	MetricDescription string `mapstructure:"metric-description"`
+	ResponseCode      int    `mapstructure:"response-code"`
 }
 
 type Config struct {
@@ -66,7 +67,7 @@ func init() {
 	}
 }
 
-func ping(url string, timeout time.Duration) bool {
+func ping(url string, timeout time.Duration, responseCode int) bool {
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Error().Err(err).Msg("Error in the request")
@@ -77,10 +78,13 @@ func ping(url string, timeout time.Duration) bool {
 	start := time.Now()
 	response, err := client.Do(request)
 	if err != nil {
-		log.Error().Err(err).Msg("Error onß execution of request")
+		log.Error().Err(err).Msg("Error on execution of request")
 		return false
 	}
 	log.Info().Int("status code", response.StatusCode).Int64("duration", timeTrack(start).Milliseconds()).Msgf("Execution of %s", url)
+	if responseCode != response.StatusCode {
+		return false
+	}
 	return true
 }
 
@@ -96,7 +100,7 @@ func recordMetrics(config *Config) {
 				Help: metricCheck.MetricDescription,
 			})
 			for {
-				if ping(metricCheck.Url, time.Duration(metricCheck.Timeout)) {
+				if ping(metricCheck.Url, time.Duration(metricCheck.Timeout), check.ResponseCode) {
 					metric.Set(1)
 				} else {
 					metric.Set(0)
