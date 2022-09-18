@@ -9,10 +9,12 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 
-COPY *.go ./
+COPY cmd/ cmd/
+COPY internal/ internal/
+COPY pkg/ pkg/
 
 ENV CGO_ENABLED=0
-RUN go build -o /http-checker
+RUN go build -o /http-checker cmd/http-checker.go
 
 ## Deploy
 FROM gcr.io/distroless/base

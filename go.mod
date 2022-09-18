@@ -1,4 +1,4 @@
-module http-checker
+module github.com/mbocek/http-checker
 
 go 1.19
 

@@ -1,4 +1,4 @@
-# httpchecker
+# http-checker
 
 Check http endpoint via GET method. Base on the configuration create metric.
 
